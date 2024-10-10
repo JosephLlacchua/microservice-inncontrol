@@ -1,0 +1,28 @@
+#eureka:
+ # client:
+  #  registerWithEureka: false
+
+server:
+  port: 8080
+
+logging:
+  file:
+    name: app.log
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: msvc-gateway
+
+  # cloud:
+  # gateway: # Gateway configuration
+  #   routes:
+  #     - id: iam
+  #       uri: http://localhost:8090
+  #       predicates:
+  #         - Path=/api/v1/authentication/**
+  #     - id: profiles
+  #       uri: http://localhost:9090
+  #       predicates:
+  #         - Path=/api/v1/profiles/**
