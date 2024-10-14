@@ -1,6 +1,28 @@
 
+server:
+  port: 8080
+
+logging:
+  file:
+    name: app.log
+
 spring:
-  application:
-    name: msvc-gateway
   config:
     import: optional:configserver:http://localhost:8888
+  application:
+    name: msvc-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: iam-service
+          uri: lb://msvc-iam
+          predicates:
+            - Path=/api/v1/authentication/**
+        - id: roles-service
+          uri: lb://msvc-iam
+          predicates:
+            - Path=/api/v1/roles/**
