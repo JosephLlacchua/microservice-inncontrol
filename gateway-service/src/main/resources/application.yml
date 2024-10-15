@@ -1,4 +1,3 @@
-
 server:
   port: 8080
 
@@ -22,6 +21,10 @@ spring:
           uri: lb://msvc-iam
           predicates:
             - Path=/api/v1/authentication/**
+        - id: users-service
+          uri: lb://msvc-iam
+          predicates:
+            - Path=/api/v1/users/**
         - id: roles-service
           uri: lb://msvc-iam
           predicates:
