@@ -7,6 +7,7 @@ import com.inncontrol.iam.domain.services.UserQueryService;
 import com.inncontrol.iam.interfaces.rest.resources.UserResource;
 import com.inncontrol.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
 //import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
-//@Tag(name = "Users", description = "User Management Endpoints")
+@Tag(name = "Users", description = "User Management Endpoints")
 public class UsersController {
     private final UserQueryService userQueryService;
 

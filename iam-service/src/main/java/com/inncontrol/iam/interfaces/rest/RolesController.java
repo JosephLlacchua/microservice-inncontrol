@@ -6,6 +6,7 @@ import com.inncontrol.iam.domain.services.RoleQueryService;
 import com.inncontrol.iam.interfaces.rest.resources.RoleResource;
 import com.inncontrol.iam.interfaces.rest.transform.RoleResourceFromEntityAssembler;
 //import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/v1/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-//@Tag(name = "Roles", description = "Role Management Endpoints")
+@Tag(name = "Roles", description = "Role Management Endpoints")
 public class RolesController {
     private final RoleQueryService roleQueryService;
 

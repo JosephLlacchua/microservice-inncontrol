@@ -12,6 +12,7 @@ import com.inncontrol.iam.interfaces.rest.transform.SignInCommandFromResourceAss
 import com.inncontrol.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
 import com.inncontrol.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
 //import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/api/v1/authentication", produces = MediaType.APPLICATION_JSON_VALUE)
-//@Tag(name = "Authentication", description = "Authentication Endpoints")
+@Tag(name = "Authentication", description = "Authentication Endpoints")
 public class AuthenticationController {
     private final UserCommandService userCommandService;
 
