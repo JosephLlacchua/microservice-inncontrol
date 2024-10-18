@@ -16,47 +16,47 @@ import org.slf4j.LoggerFactory;
 public class AuthFilter implements GatewayFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthFilter.class);
-    private final WebClient webClient;
 
-    private static final String AUTH_VALIDATE_URI = "http://msvc-iam/api/v1/authentication/validate";
-    private static final String ACCESS_TOKEN_HEADER_NAME = "accessToken";
+    private final WebClient.Builder webClientBuilder;
 
     public AuthFilter(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.build();
+        this.webClientBuilder = webClientBuilder;
     }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-            return this.onError(exchange, "Missing Authorization Header");
+        HttpHeaders headers = exchange.getRequest().getHeaders();
+
+        if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
+            logger.warn("Falta el header Authorization");
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         }
 
-        final var tokenHeader = exchange
-                .getRequest()
-                .getHeaders()
-                .get(HttpHeaders.AUTHORIZATION).get(0);
-
-        final var chunks = tokenHeader.split(" ");
-
-        if (chunks.length != 2 || !chunks[0].equals("Bearer")) {
-            return this.onError(exchange, "Invalid Authorization Header");
+        String authHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            logger.warn("Token mal formado");
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         }
-        final var token = chunks[1];
 
-        return this.webClient
+        String token = authHeader.substring(7);
+
+        // Llamar al endpoint verify-token usando la URL correcta
+        logger.info("Validando token: " + token);
+        return webClientBuilder.build()
                 .post()
-                .uri(AUTH_VALIDATE_URI)
-                .header(ACCESS_TOKEN_HEADER_NAME, token)
+                .uri("http://localhost:8094/msvc-iam/api/v1/authentication/verify-token/" + token)
                 .retrieve()
                 .bodyToMono(TokenDto.class)
-                .flatMap(response -> chain.filter(exchange))
-                .onErrorResume(e -> this.onError(exchange, "Token validation failed"));
-    }
-
-    private Mono<Void> onError(ServerWebExchange exchange, String error) {
-        logger.error(error);
-        final var response = exchange.getResponse();
-        response.setStatusCode(HttpStatus.BAD_REQUEST);
-        return response.setComplete();
+                .flatMap(authenticatedUser -> {
+                    logger.info("Token válido. Continuando con la solicitud.");
+                    return chain.filter(exchange);
+                })
+                .onErrorResume(e -> {
+                    logger.error("Error durante la validación del token", e);
+                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return exchange.getResponse().setComplete();
+                });
     }
 }

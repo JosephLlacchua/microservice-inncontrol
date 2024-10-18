@@ -1,9 +1,14 @@
 server:
   port: 8094
 
+  servlet:
+    context-path: /msvc-iam
+
 spring:
   application:
     name: msvc-iam
+  profiles:
+    default: default
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
