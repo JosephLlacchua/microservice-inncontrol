@@ -40,4 +40,13 @@ public class UserTest {
         user.addRoles(List.of(role1, role2));
         assertTrue(user.getRoles().containsAll(List.of(role1, role2)));
     }
+
+    @Test
+    public void testGetSerializedRoles() {
+        Role role = new Role(Roles.EMPLOYEE);
+        user.addRole(role);
+        List<String> serializedRoles = user.getSerializedRoles();
+        assertEquals(1, serializedRoles.size());
+        assertEquals("EMPLOYEE", serializedRoles.get(0));
+    }
 }
