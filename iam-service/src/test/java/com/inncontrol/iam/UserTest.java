@@ -19,4 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class UserTest {
 
+    private User user;
+
+    
 }
