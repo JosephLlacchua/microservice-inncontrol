@@ -26,5 +26,10 @@ public class UserTest {
         user = new User("testuser", "password123");
     }
 
-
+    @Test
+    public void testAddRole() {
+        Role role = new Role(Roles.EMPLOYEE);
+        user.addRole(role);
+        assertTrue(user.getRoles().contains(role));
+    }
 }
