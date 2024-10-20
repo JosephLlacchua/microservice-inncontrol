@@ -22,5 +22,13 @@ class RoleTest {
     void toRoleFromName_ShouldThrowExceptionForInvalidName() {
         assertThrows(IllegalArgumentException.class, () -> Role.toRoleFromName("INVALID_ROLE"));
     }
-    
+
+    @Test
+    void validateRoleSet_ShouldReturnDefaultRoleWhenEmpty() {
+        List<Role> roles = Role.validateRoleSet(List.of());
+        assertNotNull(roles);
+        assertEquals(1, roles.size());
+        assertEquals(Roles.EMPLOYEE, roles.get(0).getName());
+    }
+
 }
