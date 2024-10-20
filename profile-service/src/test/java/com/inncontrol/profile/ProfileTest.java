@@ -20,5 +20,13 @@ class ProfileTest {
         assertEquals("Jane Smith", profile.getFullName());
     }
 
-    
+    @Test
+    void testUpdateEmail() {
+        Profile profile = new Profile("John", "Doe", "john.doe@example.com", 1L);
+        profile.updateEmail("jane.smith@example.com");
+
+        assertEquals("jane.smith@example.com", profile.getEmailAddress());
+    }
+
+
 }
