@@ -15,4 +15,21 @@ public class AuthenticationControllerTest {
 
     @MockBean
     private UserCommandService userCommandService;
+
+    @BeforeEach
+    public void setUp() {
+        Mockito.reset(userCommandService);
+    }
+
+    @Test
+    public void testVerifyToken() throws Exception {
+        String token = "someToken";
+        RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand(token);
+
+        Mockito.when(userCommandService.handle(refreshTokenCommand)).thenReturn(Optional.empty());
+
+        mockMvc.perform(post("/api/v1/authentication/verify-token/" + token))
+                .andExpect(status().isNotFound());
+    }
+
 }
