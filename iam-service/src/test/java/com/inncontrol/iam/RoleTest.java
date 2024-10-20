@@ -31,4 +31,15 @@ class RoleTest {
         assertEquals(Roles.EMPLOYEE, roles.get(0).getName());
     }
 
+    @Test
+    void validateRoleSet_ShouldReturnProvidedRoles() {
+        Role adminRole = new Role(Roles.EMPLOYEE);
+        Role userRole = new Role(Roles.MANAGER);
+        List<Role> roles = Role.validateRoleSet(List.of(adminRole, userRole));
+        assertNotNull(roles);
+        assertEquals(2, roles.size());
+        assertTrue(roles.contains(adminRole));
+        assertTrue(roles.contains(userRole));
+    }
+
 }
