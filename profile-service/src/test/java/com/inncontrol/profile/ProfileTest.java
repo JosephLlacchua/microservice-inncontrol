@@ -12,5 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProfileTest {
 
+    @Test
+    void testUpdateName() {
+        Profile profile = new Profile("John", "Doe", "john.doe@example.com", 1L);
+        profile.updateName("Jane", "Smith");
+
+        assertEquals("Jane Smith", profile.getFullName());
+    }
+
     
 }
