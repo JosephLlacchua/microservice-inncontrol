@@ -18,4 +18,9 @@ class RoleTest {
         assertEquals(Roles.EMPLOYEE, defaultRole.getName());
     }
 
+    @Test
+    void toRoleFromName_ShouldThrowExceptionForInvalidName() {
+        assertThrows(IllegalArgumentException.class, () -> Role.toRoleFromName("INVALID_ROLE"));
+    }
+    
 }
