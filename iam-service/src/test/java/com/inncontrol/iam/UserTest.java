@@ -21,5 +21,10 @@ public class UserTest {
 
     private User user;
 
-    
+    @BeforeEach
+    public void setUp() {
+        user = new User("testuser", "password123");
+    }
+
+
 }
