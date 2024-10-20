@@ -32,4 +32,12 @@ public class UserTest {
         user.addRole(role);
         assertTrue(user.getRoles().contains(role));
     }
+
+    @Test
+    public void testAddRoles() {
+        Role role1 = new Role(Roles.EMPLOYEE);
+        Role role2 = new Role(Roles.MANAGER);
+        user.addRoles(List.of(role1, role2));
+        assertTrue(user.getRoles().containsAll(List.of(role1, role2)));
+    }
 }
