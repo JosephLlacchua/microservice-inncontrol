@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProfileTest {
 
     @Test
+    // Here is a test about the updateName method of the Profile class
     void testUpdateName() {
         Profile profile = new Profile("John", "Doe", "john.doe@example.com", 1L);
         profile.updateName("Jane", "Smith");
@@ -21,6 +22,7 @@ class ProfileTest {
     }
 
     @Test
+    // Here is a test about the updateEmail method of the Profile class
     void testUpdateEmail() {
         Profile profile = new Profile("John", "Doe", "john.doe@example.com", 1L);
         profile.updateEmail("jane.smith@example.com");
@@ -29,6 +31,7 @@ class ProfileTest {
     }
 
     @Test
+    // Here is a test about the updatePhoneNumber method of the Profile class
     void testUpdatePhoneNumber() {
         Profile profile = new Profile("John", "Doe", "john.doe@example.com", 1L);
         profile.setPhoneNumber("0987654321");
