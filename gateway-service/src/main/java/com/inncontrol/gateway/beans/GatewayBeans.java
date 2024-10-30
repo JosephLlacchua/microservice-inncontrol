@@ -25,7 +25,6 @@ public class GatewayBeans {
         return new AuthFilter(webClientBuilder);
     }
 
-
     @Bean
     @Profile(value = "oauth2")
     public RouteLocator routeLocatorOauth2(RouteLocatorBuilder builder, AuthFilter authFilter) {
