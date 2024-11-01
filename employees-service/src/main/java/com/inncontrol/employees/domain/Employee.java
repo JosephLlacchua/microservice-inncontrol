@@ -29,7 +29,7 @@ public class Employee {
     private String correo;
 
     @Column(length = 9, nullable = false)
-    private String telefono;
+    private Long telefono;
 
     @Column(name = "fecha_contratacion", nullable = false)
     private LocalDate fechaContratacion;

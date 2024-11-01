@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 public class EmployeeDTO {
 
-    // Getters y Setters
     @NotBlank
     @Size(max = 50)
     private String nombre;
@@ -21,7 +20,7 @@ public class EmployeeDTO {
     private String apellido;
 
     @NotBlank
-    @Pattern(regexp = "^[MF]$", message = "El género solo puede ser 'M' o 'F'")
+    @Size(max = 1)
     private String genero;
 
     @Email(message = "El correo debe ser válido y contener '@'")
@@ -30,7 +29,7 @@ public class EmployeeDTO {
     private String correo;
 
     @NotBlank
-    @Pattern(regexp = "^\\d{9}$", message = "El teléfono debe tener 9 dígitos")
-    private String telefono;
+    @Size(max = 9)
+    private Long telefono;
 
 }
