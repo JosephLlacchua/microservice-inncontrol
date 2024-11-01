@@ -23,11 +23,11 @@ public class EmployeeDTO {
     @Size(max = 1)
     private String genero;
 
-    @Email(message = "El correo debe ser válido y contener '@'")
     @NotBlank
     @Size(max = 50)
     private String correo;
 
+    @Pattern(regexp = "^[0-9]{9}$")
     @NotBlank
     @Size(max = 9)
     private Long telefono;
