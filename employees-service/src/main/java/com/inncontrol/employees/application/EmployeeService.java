@@ -6,6 +6,8 @@ import com.inncontrol.employees.dto.EmployeeDTO;
 import com.inncontrol.employees.domain.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +34,9 @@ public class EmployeeService {
 
     public Optional<Employee> getEmployeeById(Long id) {
         return employeeRepository.findById(id);
+    }
+    public Optional<Employee> findByCorreo(String email) {
+        return employeeRepository.findByCorreo(email);
     }
 
     public List<Employee> getAllEmployees() {

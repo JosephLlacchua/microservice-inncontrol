@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -24,9 +27,13 @@ public class EmployeeController {
 
     @Operation(summary = "Register a new employee")
     @PostMapping
-    public ResponseEntity<Employee> registerEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        Employee savedEmployee = employeeService.registerEmployee(employeeDTO);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    public ResponseEntity<String> registerEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        Optional<Employee> existingUsuario = employeeService.findByCorreo(employeeDTO.getCorreo());
+        if (existingUsuario.isPresent()) {
+            return ResponseEntity.badRequest().body("El email ya está registrado");
+        }
+        employeeService.registerEmployee(employeeDTO);
+        return ResponseEntity.ok("Usuario creado exitosamente");
     }
 
     @Operation(summary = "Get an employee by ID")
@@ -35,6 +42,12 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id)
                 .map(employee -> new ResponseEntity<>(employee, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @Operation(summary = "Get all employees")
+    @GetMapping
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
     @Operation(summary = "Update an employee by ID")
@@ -50,11 +63,5 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @Operation(summary = "Get all employees")
-    @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees() {
-        return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 }
