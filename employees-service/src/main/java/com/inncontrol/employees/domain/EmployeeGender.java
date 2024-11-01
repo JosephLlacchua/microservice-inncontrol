@@ -1,4 +1,6 @@
 package com.inncontrol.employees.domain;
 
-public class EmployeeGender {
+public enum EmployeeGender {
+    M,
+    F
 }
