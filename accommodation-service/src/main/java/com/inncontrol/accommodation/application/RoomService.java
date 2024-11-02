@@ -28,13 +28,14 @@ public class RoomService {
     @Transactional
     public Room registerRoom(RoomDTO roomDTO) {
         RoomType roomType = RoomType.fromString(roomDTO.getRoomType());
+        RoomStatus roomStatus = RoomStatus.valueOf(roomDTO.getRoomStatus().toUpperCase());
         Room room = new Room(roomDTO.getRoomNumber(), roomType);
         room.setRoomNumber(roomDTO.getRoomNumber());
         room.setRoomType(roomType);
+        room.setRoomStatus(roomStatus);
 
         return roomRepository.save(room);
     }
-
     public Optional<Room> findRoomByRoomNumber(int roomNumber) {
         return roomRepository.findByRoomNumber(roomNumber);
     }
