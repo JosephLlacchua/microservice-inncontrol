@@ -29,13 +29,13 @@ public class EmployeeController {
 
     @Operation(summary = "Register a new employee")
     @PostMapping
-    public ResponseEntity<String> registerEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<Employee> registerEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Optional<Employee> existingUsuario = employeeService.findByCorreo(employeeDTO.getCorreo());
         if (existingUsuario.isPresent()) {
-            return ResponseEntity.badRequest().body("El email ya está registrado");
+            return ResponseEntity.badRequest().build();
         }
-        employeeService.registerEmployee(employeeDTO);
-        return ResponseEntity.ok("Usuario creado exitosamente");
+        Employee createdEmployee = employeeService.registerEmployee(employeeDTO);
+        return ResponseEntity.ok(createdEmployee);
     }
 
     @Operation(summary = "Get an employee by ID")
