@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Room service class for managing room registrations.
+ * Room service class for managing room operations.
+ * @author Sharon Antuanet Ivet Barrial Marin - u202114900
  * @version 1.0
  */
 
@@ -26,7 +27,7 @@ public class RoomService {
 
     @Transactional
     public Room registerRoom(RoomDTO roomDTO) {
-        RoomType roomType = RoomType.valueOf(roomDTO.getRoomType().toUpperCase());
+        RoomType roomType = RoomType.fromString(roomDTO.getRoomType());
         Room room = new Room(roomDTO.getRoomNumber(), roomType);
         room.setRoomNumber(roomDTO.getRoomNumber());
         room.setRoomType(roomType);
@@ -43,17 +44,19 @@ public class RoomService {
     }
 
     @Transactional
-    public Optional<Room> updateRoom(int roomNumber,RoomDTO roomDTO) {
-        return roomRepository.findByRoomNumber(roomNumber)
-                .map(room -> {
-                    room.setRoomNumber(roomDTO.getRoomNumber());
-                    room.setRoomType(RoomType.valueOf(roomDTO.getRoomType().toUpperCase()));
-                    return roomRepository.save(room);
-                });
+    public Optional<Room> updateRoom(int roomNumber, RoomDTO roomDTO) {
+        Optional<Room> roomOptional = findRoomByRoomNumber(roomNumber);
+        if (roomOptional.isPresent()) {
+            Room room = roomOptional.get();
+            room.setRoomNumber(roomDTO.getRoomNumber());
+            room.setRoomType(RoomType.fromString(roomDTO.getRoomType()));
+            return Optional.of(roomRepository.save(room));
+        }
+        return Optional.empty();
     }
 
     public List<Room> getRoomsByRoomType(String roomType) {
-        return roomRepository.findByRoomType(RoomType.valueOf(roomType.toUpperCase()));
+        return roomRepository.findByRoomType(RoomType.fromString(roomType));
     }
 
     public List<Room> getRoomsByRoomStatus(String roomStatus) {

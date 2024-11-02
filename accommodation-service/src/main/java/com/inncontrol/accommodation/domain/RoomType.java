@@ -5,7 +5,15 @@ package com.inncontrol.accommodation.domain;
  * @version 1.0
  */
 public enum RoomType {
+    DELUXE,
     STANDARD,
-    SUITE,
-    DELUXE_SUITE
+    SUITE;
+
+    public static RoomType fromString(String roomType) {
+        try {
+            return RoomType.valueOf(roomType.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid room type: " + roomType);
+        }
+    }
 }
