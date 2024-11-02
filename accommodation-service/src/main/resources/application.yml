@@ -1,6 +1,41 @@
+server:
+  port: 8094
+
+  servlet:
+    context-path: /msvc-accommodation
+
 spring:
   application:
-    name: msvc-accommodations
+    name: msvc-accommodation
+  profiles:
+    default: default
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/accommodationdb?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: 12345678
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
   config:
     import: optional:configserver:http://localhost:8888
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+authorization:
+  jwt:
+    secret: d1f4a5f8c3d555d31a9e07547cffe13bc174c6a70a54d37b9bddded4b9d1a86a
+    expiration:
+      days: 7
