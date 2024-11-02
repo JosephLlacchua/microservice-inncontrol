@@ -6,6 +6,8 @@ import com.inncontrol.task.domain.model.valueobjects.TaskStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.datetime.DateFormatter;
 
 import java.util.Date;
@@ -15,6 +17,7 @@ import java.util.Locale;
 @Setter
 @Getter
 @Table(name = "tasks")
+@EntityListeners(AuditingEntityListener.class)
 public class Task {
 
     @Id
@@ -28,6 +31,7 @@ public class Task {
     private TaskStatus status;
 
     @Column(nullable = false)
+    @CreatedDate
     private Date dueDate;
 
     @Embedded
@@ -38,10 +42,9 @@ public class Task {
     public Task() {
     }
 
-    public Task(TaskInformation taskInformation, TaskStatus status, Date dueDate, EmployeeIdentifier employee, String employeeMail) {
+    public Task(TaskInformation taskInformation, TaskStatus status, EmployeeIdentifier employee, String employeeMail) {
         this.taskInformation = taskInformation;
         this.status = status;
-        this.dueDate = dueDate;
         this.employee = employee;
         this.employeeMail = employeeMail;
     }

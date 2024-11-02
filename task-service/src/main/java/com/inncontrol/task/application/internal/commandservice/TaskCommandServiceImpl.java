@@ -24,7 +24,6 @@ public class TaskCommandServiceImpl implements TaskCommandService {
         var task = new Task(
                 new TaskInformation(command.title(), command.description()),
                 TaskStatus.SCHEDULED,
-                command.dueDate(),
                 command.employeeId(),
                 command.employeeEmail()
         );

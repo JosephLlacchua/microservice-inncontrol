@@ -6,7 +6,6 @@ public record TaskCreateCommandResource(
         String employeeEmail,
         String title,
         String description,
-        EmployeeIdentifier employee,
-        String dueDate
+        EmployeeIdentifier employee
 ) {
 }
