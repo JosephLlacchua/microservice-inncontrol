@@ -49,9 +49,9 @@ public class AuthFilter implements GatewayFilter {
         String token = authHeader.substring(7);
         logger.info("Validando token: " + token);
 
-        return directWebClient
+        return webClientBuilder.build()
                 .post()
-                .uri("http://localhost:8094/msvc-iam/api/v1/authentication/verify-token/" + token)
+                .uri("lb://msvc-iam/msvc-iam/api/v1/authentication/verify-token/" + token)
                 .retrieve()
                 .bodyToMono(TokenDto.class)
                 .timeout(Duration.ofSeconds(10))

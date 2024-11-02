@@ -1,5 +1,5 @@
 server:
-  port: 8094
+  port: 0
 
   servlet:
     context-path: /msvc-iam
