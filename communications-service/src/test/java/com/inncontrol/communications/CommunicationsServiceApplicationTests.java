@@ -46,6 +46,7 @@ class CommunicationsServiceApplicationTests {
 			return savedMessage;
 		});
 
+
 		Message savedMessage = messageService.createMessage(messageDto);
 
 		assertNotNull(savedMessage);
