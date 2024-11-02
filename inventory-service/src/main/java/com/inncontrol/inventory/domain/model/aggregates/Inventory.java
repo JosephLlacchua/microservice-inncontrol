@@ -3,9 +3,11 @@ package com.inncontrol.inventory.domain.model.aggregates;
 import com.inncontrol.inventory.domain.model.commands.CreateItemsCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Getter
+@Setter
 @Entity
 public class Inventory {
 
@@ -27,7 +29,7 @@ public class Inventory {
 
 
 
-    protected Inventory() {}
+    public Inventory() {}
 
 
     public Inventory(CreateItemsCommand command) {
