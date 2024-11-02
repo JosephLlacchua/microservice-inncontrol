@@ -40,6 +40,7 @@ public class MessageService {
         return messageRepository.findBySender(sender);
     }
 
+
     @Transactional
     public Optional<Message> updateMessage(Long id, MessageDto messageDto) {
         return messageRepository.findById(id).map(message -> {
