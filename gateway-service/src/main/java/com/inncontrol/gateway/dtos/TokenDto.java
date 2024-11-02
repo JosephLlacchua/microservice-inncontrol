@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class TokenDto {
-
     private Long id;
     private String username;
     private List<String> roles;

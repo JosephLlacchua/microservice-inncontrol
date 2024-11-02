@@ -31,6 +31,16 @@ public class GatewayBeans {
         return builder
                 .routes()
                 .route(route -> route
+                        .path("/msvc-tasks/api/v1/tasks/**")
+                        .filters(filter -> filter.filter(authFilter))
+                        .uri("lb://msvc-tasks")
+                )
+                .route(route ->route
+                        .path("/msvc-employees/api/employees/**")
+                        .filters(filter -> filter.filter(authFilter))
+                        .uri("lb://msvc-employees")
+                )
+                .route(route -> route
                         .path("/msvc-iam/api/v1/users/**")
                         .filters(filter -> filter.filter(authFilter))
                         .uri("lb://msvc-iam")
