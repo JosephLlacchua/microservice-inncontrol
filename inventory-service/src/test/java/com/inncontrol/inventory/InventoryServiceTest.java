@@ -47,4 +47,23 @@ class InventoryCommandServiceImplTest {
         assertEquals(10, result.get().getProductQuantity());
         assertEquals("description", result.get().getProductDescription());
     }
+
+    @Test
+    void handleUpdateInventoryCommand_WithValidData() {
+        Long inventoryId = 1L;
+        UpdateInventoryCommand updateInventoryCommand = new UpdateInventoryCommand(inventoryId, "newItemName", "newDescription", 20, "newBrand");
+        Inventory existingInventory = new Inventory(new CreateItemsCommand("itemName", "description", 10, "brand"));
+        existingInventory.setId(inventoryId);
+
+        when(inventoryRepository.findById(inventoryId)).thenReturn(Optional.of(existingInventory));
+        when(inventoryRepository.save(any(Inventory.class))).thenReturn(existingInventory.updateInformation("newItemName", "newDescription", 20, "newBrand"));
+
+        Optional<Inventory> result = inventoryCommandService.handle(updateInventoryCommand);
+
+        assertTrue(result.isPresent());
+        assertEquals("newItemName", result.get().getProductTitle());
+        assertEquals("newBrand", result.get().getBrand());
+        assertEquals(20, result.get().getProductQuantity());
+        assertEquals("newDescription", result.get().getProductDescription());
+    }
 }
