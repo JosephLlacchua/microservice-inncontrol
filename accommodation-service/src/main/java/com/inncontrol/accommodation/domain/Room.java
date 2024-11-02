@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * Room entity class.
  * @author Sharon Antuanet Ivet Barrial Marin - u202114900
  * @version 1.0
  */
@@ -14,7 +15,6 @@ import lombok.Setter;
 @Entity
 public class Room {
 
-    //Getters and Setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,4 +28,13 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
 
+    // Constructor
+    public Room(int roomNumber, RoomType roomType) {
+        this.roomNumber = roomNumber;
+        this.roomType = roomType;
+    }
+
+    // Default constructor
+    public Room() {
+    }
 }
