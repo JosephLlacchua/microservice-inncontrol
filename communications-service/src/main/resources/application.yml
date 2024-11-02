@@ -1,6 +1,35 @@
+server:
+  port: 0
+  servlet:
+    context-path: /msvc-messages
+
 spring:
   application:
-    name: msvc-communications
+    name: msvc-messages
+
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/messagedb?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: gitano200J@@J@@
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
 
   config:
     import: optional:configserver:http://localhost:8888
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
