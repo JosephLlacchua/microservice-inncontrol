@@ -45,7 +45,7 @@ class CommunicationsServiceApplicationTests {
 			savedMessage.setId(1L); // Simula el ID generado
 			return savedMessage;
 		});
-
+ 
 
 		Message savedMessage = messageService.createMessage(messageDto);
 
