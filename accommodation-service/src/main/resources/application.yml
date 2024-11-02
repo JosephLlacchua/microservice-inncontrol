@@ -1,5 +1,5 @@
 server:
-  port: 8094
+  port: 8098
 
   servlet:
     context-path: /msvc-accommodation
@@ -32,10 +32,4 @@ eureka:
     hostname: localhost
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-
-authorization:
-  jwt:
-    secret: d1f4a5f8c3d555d31a9e07547cffe13bc174c6a70a54d37b9bddded4b9d1a86a
-    expiration:
-      days: 7
+      defaultZone: http://localhost:8761/eureka
