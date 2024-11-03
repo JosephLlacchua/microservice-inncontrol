@@ -13,7 +13,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/messagedb?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
-    password: gitano200J@@J@@
+    password: 12345678
 
   jpa:
     hibernate:

@@ -10,9 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/messages")
+@RequestMapping("/api/v1/messages")
 @Tag(name = "Messages Management", description = "Operations pertaining to messages management")
 public class MessageController {
 
@@ -45,8 +46,8 @@ public class MessageController {
 
     @Operation(summary = "Get messages by receiver")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
+    public ResponseEntity<?> deleteMessage(@PathVariable Long id) {
         messageService.deleteMessage(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(Map.of("message", "Question with given id successfully deleted"));
     }
 }
