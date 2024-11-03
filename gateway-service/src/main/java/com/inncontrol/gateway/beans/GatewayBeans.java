@@ -31,12 +31,27 @@ public class GatewayBeans {
         return builder
                 .routes()
                 .route(route -> route
+                        .path("/msvc-accommodation/api/v1/room/**")
+                        .filters(filter -> filter.filter(authFilter))
+                        .uri("lb://msvc-accommodation")
+                )
+                .route(route -> route
+                        .path("/msvc-inventory/api/v1/inventory/**")
+                        .filters(filter -> filter.filter(authFilter))
+                        .uri("lb://msvc-inventory")
+                )
+                .route(route -> route
+                        .path("/msvc-messages/api/v1/messages/**")
+                        .filters(filter -> filter.filter(authFilter))
+                        .uri("lb://msvc-messages")
+                )
+                .route(route -> route
                         .path("/msvc-tasks/api/v1/tasks/**")
                         .filters(filter -> filter.filter(authFilter))
                         .uri("lb://msvc-tasks")
                 )
                 .route(route ->route
-                        .path("/msvc-employees/api/employees/**")
+                        .path("/msvc-employees/api/v1/employees/**")
                         .filters(filter -> filter.filter(authFilter))
                         .uri("lb://msvc-employees")
                 )

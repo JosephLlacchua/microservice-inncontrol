@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api/v1/employees")
 @Tag(name = "Employee Management", description = "Operations pertaining to employee management")
 public class EmployeeController {
 
