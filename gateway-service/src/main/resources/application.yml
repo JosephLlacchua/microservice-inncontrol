@@ -1,25 +1,9 @@
-server:
-  port: 8080
-
-logging:
-  file:
-    name: app.log
-
 spring:
-  profiles:
-    active: oauth2
-
-  config:
-    import: optional:configserver:http://localhost:8888
   application:
     name: msvc-gateway
 
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-eureka:
-  client:
-    fetch-registry: true
+  profiles:
+    default: oauth2
+
+  config:
+    import: optional:configserver:http://localhost:8888
