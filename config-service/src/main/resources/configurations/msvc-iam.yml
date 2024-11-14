@@ -25,13 +25,12 @@ spring:
         format_sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
 
-
 eureka:
   instance:
-    hostname: localhost
+    instance-id: "${spring.application.name}:${random.value}"
   client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+    service-url:
+      defaultZone: ${EUREKA_URL}
 
 authorization:
   jwt:
