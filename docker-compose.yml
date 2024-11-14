@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  ms-eureka-service:
+    image: ms-eureka-service:latest
+    container_name: ms-eureka-service
+    restart: always
+    ports:
+      - "8761:8761"
+    environment:
+      CONFIG_SERVER: ms-config-service
+
+  ms-config-service:
+    image: ms-config-service:latest
+    container_name: ms-config-service
+    restart: always
+    ports:
+      - "8888:8888"
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+
+  ms-iam-service:
+    image: ms-iam-service:latest
+    container_name: ms-iam-service
+    restart: always
+    ports:
+      - "5050:5050"
+    depends_on:
+      - ms-config-service
+      - db
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+      DB_URL: jdbc:mysql://db:3306/iamdb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER_NAME: root
+      DB_PASSWORD: 1234
+
+  db:
+    image: mysql:8.0.33
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: iamdb
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 10s
+      retries: 10
