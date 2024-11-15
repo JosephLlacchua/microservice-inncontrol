@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8041
   servlet:
     context-path: /msvc-inventory
 spring:
@@ -8,9 +8,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/inventorydb?createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
-    password: 12345678
+    url: ${DB_URL:jdbc:mysql://localhost:3306/inventorydb?createDatabaseIfNotExist=true&serverTimezone=UTC}
+    username: ${DB_USER_NAME:root}
+    password: ${DB_PASSWORD:12345678}
 
   jpa:
     hibernate:
@@ -24,6 +24,8 @@ spring:
 eureka:
   instance:
     instance-id: "${spring.application.name}:${random.value}"
+    non-secure-port-enabled: true
+    non-secure-port: ${server.port}
   client:
     service-url:
       defaultZone: ${EUREKA_URL}

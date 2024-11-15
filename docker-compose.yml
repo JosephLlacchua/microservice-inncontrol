@@ -7,7 +7,9 @@ services:
     ports:
       - "8761:8761"
     environment:
-      CONFIG_SERVER: ms-config-service
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+    networks:
+      - eureka-network
 
   ms-config-service:
     image: ms-config-service:latest
@@ -17,6 +19,8 @@ services:
       - "8888:8888"
     environment:
       EUREKA_URL: http://ms-eureka-service:8761/eureka/
+    networks:
+      - eureka-network
 
   ms-iam-service:
     image: ms-iam-service:latest
@@ -34,7 +38,143 @@ services:
       DB_USER: root
       DB_PASSWORD: 1234
     ports:
-        - "8094:8094"  # Especifica el puerto interno y externo
+      - "8094:8094"
+    networks:
+      - eureka-network
+
+  ms-gateway-service:
+    image: ms-gateway-service:latest
+    container_name: ms-gateway-service
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ms-config-service
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+    networks:
+      - eureka-network
+
+  ms-profile-service:
+    image: ms-profile-service:latest
+    container_name: ms-profile-service
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      ms-config-service:
+        condition: service_started
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+      DB_URL: jdbc:mysql://db:3306/profiledb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER: root
+      DB_PASSWORD: 1234
+    ports:
+      - "8096:8096"
+    networks:
+      - eureka-network
+
+  ms-accommodation-service:
+    image: ms-accomodation-service:latest
+    container_name: ms-accommodation-service
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      ms-config-service:
+        condition: service_started
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+      DB_URL: jdbc:mysql://db:3306/accommodationdb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER: root
+      DB_PASSWORD: 1234
+    ports:
+      - "8741:8741"
+    networks:
+      - eureka-network
+
+  ms-messages-service:
+    image: ms-communications-service:latest
+    container_name: ms-messages-service
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      ms-config-service:
+        condition: service_started
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+      DB_URL: jdbc:mysql://db:3306/messagesdb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER: root
+      DB_PASSWORD: 1234
+    ports:
+      - "8963:8963"
+    networks:
+      - eureka-network
+
+  ms-employees-service:
+    image: ms-employees-service:latest
+    container_name: ms-employees-service
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      ms-config-service:
+        condition: service_started
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+      DB_URL: jdbc:mysql://db:3306/employeesdb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER: root
+      DB_PASSWORD: 1234
+    ports:
+      - "8463:8463"
+    networks:
+      - eureka-network
+
+  ms-inventory-service:
+    image: ms-inventory-service:latest
+    container_name: ms-inventory-service
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      ms-config-service:
+        condition: service_started
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+      DB_URL: jdbc:mysql://db:3306/inventorydb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER: root
+      DB_PASSWORD: 1234
+    ports:
+      - "8041:8041"
+    networks:
+      - eureka-network
+
+  ms-tasks-service:
+    image: ms-task-service:latest
+    container_name: ms-tasks-service
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      ms-config-service:
+        condition: service_started
+    environment:
+      EUREKA_URL: http://ms-eureka-service:8761/eureka/
+      CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
+      DB_URL: jdbc:mysql://db:3306/tasksdb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER: root
+      DB_PASSWORD: 1234
+    ports:
+      - "8025:8025"
+    networks:
+      - eureka-network
 
   db:
     image: mysql:8.0.33
@@ -49,3 +189,9 @@ services:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 10s
       retries: 10
+    networks:
+      - eureka-network
+
+networks:
+  eureka-network:
+    driver: bridge

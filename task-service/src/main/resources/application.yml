@@ -3,4 +3,4 @@ spring:
     name: msvc-tasks
 
   config:
-    import: optional:configserver:http://localhost:8888
+    import: "optional:configserver:${CONFIG_SERVER_HOST}"
