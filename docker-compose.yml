@@ -49,7 +49,10 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - ms-config-service
+      ms-eureka-service:
+        condition: service_started
+      ms-config-service:
+        condition: service_started
     environment:
       EUREKA_URL: http://ms-eureka-service:8761/eureka/
       CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
