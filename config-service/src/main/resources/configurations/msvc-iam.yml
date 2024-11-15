@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8094
 
   servlet:
     context-path: /msvc-iam
@@ -28,6 +28,8 @@ spring:
 eureka:
   instance:
     instance-id: "${spring.application.name}:${random.value}"
+    non-secure-port-enabled: true
+    non-secure-port: ${server.port}
   client:
     service-url:
       defaultZone: ${EUREKA_URL}

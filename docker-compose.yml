@@ -22,17 +22,19 @@ services:
     image: ms-iam-service:latest
     container_name: ms-iam-service
     restart: always
-    ports:
-      - "5050:5050"
     depends_on:
-      - ms-config-service
-      - db
+      db:
+        condition: service_healthy
+      ms-config-service:
+        condition: service_started
     environment:
       EUREKA_URL: http://ms-eureka-service:8761/eureka/
       CONFIG_SERVER_HOST: 'http://ms-config-service:8888'
       DB_URL: jdbc:mysql://db:3306/iamdb?createDatabaseIfNotExist=true&serverTimezone=UTC
-      DB_USER_NAME: root
+      DB_USER: root
       DB_PASSWORD: 1234
+    ports:
+        - "8094:8094"  # Especifica el puerto interno y externo
 
   db:
     image: mysql:8.0.33
