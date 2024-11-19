@@ -21,7 +21,7 @@
         <module>gateway-service</module>
         <module>eureka-service</module>
         <module>config-service</module>
-        <module>notification-service</module>
+
         <module>iam-service</module>
         <module>profile-service</module>
         <module>accommodation-service</module>
@@ -29,7 +29,6 @@
         <module>inventory-service</module>
         <module>employees-service</module>
         <module>task-service</module>
-        <module>notification-service</module>
 
     </modules>
 
