@@ -80,7 +80,7 @@ services:
       - eureka-network
 
   ms-accommodation-service:
-    image: ms-accomodation-service:latest
+    image: ms-accommodation-service:latest
     container_name: ms-accommodation-service
     restart: always
     depends_on:
