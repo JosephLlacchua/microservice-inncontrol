@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-inventory-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-inventory-service
+  template:
+    metadata:
+      labels:
+        app: ms-inventory-service
+    spec:
+      containers:
+        - name: ms-inventory-service
+          image: microserviceinncontrol.azurecr.io/ms-inventory-service:latest
+          ports:
+            - containerPort: 8041
+          env:
+            - name: EUREKA_URL
+              value: "http://ms-eureka-service:8761/eureka/"
+            - name: CONFIG_SERVER_HOST
+              value: "http://ms-config-service:8888"
+            - name: DB_URL
+              value: "jdbc:mysql://db:3306/inventorydb?createDatabaseIfNotExist=true&serverTimezone=UTC"
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASSWORD
+              value: "1234"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-inventory-service
+spec:
+  type: ClusterIP
+  selector:
+    app: ms-inventory-service
+  ports:
+    - port: 8041
+      targetPort: 8041

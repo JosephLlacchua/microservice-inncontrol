@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-iam-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-iam-service
+  template:
+    metadata:
+      labels:
+        app: ms-iam-service
+    spec:
+      containers:
+        - name: ms-iam-service
+          image: microserviceinncontrol.azurecr.io/ms-iam-service:latest
+          ports:
+            - containerPort: 8094
+          env:
+            - name: EUREKA_URL
+              value: "http://ms-eureka-service:8761/eureka/"
+            - name: CONFIG_SERVER_HOST
+              value: "http://ms-config-service:8888"
+            - name: DB_URL
+              value: "jdbc:mysql://db:3306/iamdb?createDatabaseIfNotExist=true&serverTimezone=UTC"
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASSWORD
+              value: "1234"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-iam-service
+spec:
+  type: ClusterIP
+  selector:
+    app: ms-iam-service
+  ports:
+    - port: 8094
+      targetPort: 8094

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-gateway-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-gateway-service
+  template:
+    metadata:
+      labels:
+        app: ms-gateway-service
+    spec:
+      containers:
+        - name: ms-gateway-service
+          image: microserviceinncontrol.azurecr.io/ms-gateway-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: EUREKA_URL
+              value: "http://ms-eureka-service:8761/eureka/"
+            - name: CONFIG_SERVER_HOST
+              value: "http://ms-config-service:8888"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-gateway-service
+spec:
+  type: NodePort
+  selector:
+    app: ms-gateway-service
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080

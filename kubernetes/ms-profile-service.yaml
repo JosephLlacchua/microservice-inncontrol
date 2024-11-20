@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-profile-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-profile-service
+  template:
+    metadata:
+      labels:
+        app: ms-profile-service
+    spec:
+      containers:
+        - name: ms-profile-service
+          image: microserviceinncontrol.azurecr.io/ms-profile-service:latest
+          ports:
+            - containerPort: 8096
+          env:
+            - name: EUREKA_URL
+              value: "http://ms-eureka-service:8761/eureka/"
+            - name: CONFIG_SERVER_HOST
+              value: "http://ms-config-service:8888"
+            - name: DB_URL
+              value: "jdbc:mysql://db:3306/profiledb?createDatabaseIfNotExist=true&serverTimezone=UTC"
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASSWORD
+              value: "1234"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-profile-service
+spec:
+  type: ClusterIP
+  selector:
+    app: ms-profile-service
+  ports:
+    - port: 8096
+      targetPort: 8096
